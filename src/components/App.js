@@ -8,6 +8,7 @@ import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
+import Footer from "./Footer";
 
 const initialState = {
   questions: [],
@@ -60,6 +61,9 @@ function reducer(state, action) {
         highscore:
           state.points > state.highscore ? state.points : state.highscore,
       };
+
+    case "restart":
+      return { ...initialState, questions: state.questions, status: "ready" };
     default:
       throw new Error("Unkown Action");
   }
@@ -103,12 +107,14 @@ export default function App() {
               dispatch={dispatch}
               answer={answer}
             />
-            <NextButton
-              dispatch={dispatch}
-              answer={answer}
-              index={index}
-              numQuestions={numQuestions}
-            />
+            <Footer>
+              <NextButton
+                dispatch={dispatch}
+                answer={answer}
+                index={index}
+                numQuestions={numQuestions}
+              />
+            </Footer>
           </>
         )}
 
@@ -117,6 +123,7 @@ export default function App() {
             points={points}
             maxPoints={maxPoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
